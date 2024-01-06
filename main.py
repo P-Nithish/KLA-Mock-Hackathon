@@ -71,46 +71,6 @@ print(order_quantity)
 
 vehicle_capacity = neighbourhoods['v0']['capacity']
 print(vehicle_capacity)
-'''
-neighborhood_capacities = [int(qty) if qty != "INF" else float('inf') for qty in order_quantities]
-
-# Create a graph
-G = nx.Graph()
-
-# Add nodes (neighborhoods) and the restaurant
-G.add_node("r0")  # Restaurant
-for i in range(len(distances)):
-    G.add_node(f"n{i}")
-
-# Add edges with weights (distances)
-for i in range(len(distances)):
-    G.add_edge("r0", f"n{i}", weight=distances[i][0])  # Edge from restaurant to neighborhood
-    for j in range(len(distances[i])):
-        G.add_edge(f"n{i}", f"n{j}", weight=distances[i][j])  # Edge between neighborhoods
-
-# Function to find the minimum paths satisfying the constraints
-def find_paths():
-    paths = []
-    remaining_orders = neighborhood_capacities.copy()
-    current_capacity = vehicle_capacity
-    
-    while any(order > 0 for order in remaining_orders):
-        path = ["r0"]
-        current_capacity = vehicle_capacity
-        
-        for i, order in enumerate(remaining_orders):
-            if order > 0 and current_capacity >= order:
-                path.append(f"n{i}")
-                current_capacity -= order
-                remaining_orders[i] = 0 if order != float('inf') else float('inf')
-        
-        path.append("r0")
-        paths.append(path)
-    
-    return paths
-
-# Find the minimum paths to satisfy orders
-minimum_paths = find_paths()
 
 # Format the output
 output = {"v0": {f"path{i+1}": path for i, path in enumerate(minimum_paths)}}
